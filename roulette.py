@@ -16,51 +16,41 @@ def spin_wheel():
 
 def determine_outcome(winning_number: int, bet_amount: int, bet_type: str) -> int:
     """Calculates win/loss based on winning number and bet type."""
-    # ... your logic for calculating payouts ...
-    payout = 0
-    won = False
+    bet_type = bet_type.lower()
 
-    if bet_type.lower() in ["red", "black", "green"]:
-        if ROULETTE_NUMBERS[winning_number] == bet_type.lower():
-            won = True
-            payout = bet_amount * 1 # Simple example, adjust for 0/00
-    elif bet_type.isdigit() and int(bet_type) == winning_number:
-        won = True
-        payout = bet_amount * 35
-    elif bet_type.lower() == "odd" and winning_number % 2 != 0 and winning_number != 0:
-        won = True
-        payout = bet_amount * 2
-    elif bet_type.lower() == "even" and winning_number % 2 == 0:
-        won = True
-        payout = bet_amount * 2
-    elif bet_type.lower() == "high" and winning_number > 18:
-        won = True
-        payout = bet_amount * 2
-    elif bet_type.lower() == "low" and winning_number < 19 and winning_number != 0:
-        won = True
-        payout = bet_amount * 2
-    elif bet_type.lower() == "1st12" and 1 <= winning_number <= 12:
-        won = True
-        payout = bet_amount * 3
-    elif bet_type.lower() == "2nd12" and 13 <= winning_number <= 24:
-        won = True
-        payout = bet_amount * 3
-    elif bet_type.lower() == "3rd12" and 25 <= winning_number <= 36:
-        won = True
-        payout = bet_amount * 3
-    elif bet_type.lower() == "col1" and winning_number % 3 == 1 and winning_number != 0:
-        won = True
-        payout = bet_amount * 3
-    elif bet_type.lower() == "col2" and winning_number % 3 == 2 and winning_number != 0:
-        won = True
-        payout = bet_amount * 3
-    elif bet_type.lower() == "col3" and winning_number % 3 == 0 and winning_number != 0:
-        won = True
-        payout = bet_amount * 3
-    else:
-        won = False
+    # Payouts are for winnings (e.g., 1:1 payout means you win 1 * bet_amount)
+    if bet_type in ["red", "black"] and ROULETTE_NUMBERS[winning_number] == bet_type:
+        return bet_amount * 1  # 1:1 payout
 
-    return payout if won else -bet_amount
+    if bet_type == "green" and winning_number == 0:
+        return bet_amount * 35  # Same as a single number bet
+
+    if bet_type.isdigit() and int(bet_type) == winning_number:
+        return bet_amount * 35  # 35:1 payout
+
+    if bet_type == "odd" and winning_number != 0 and winning_number % 2 != 0:
+        return bet_amount * 1  # 1:1 payout
+    if bet_type == "even" and winning_number != 0 and winning_number % 2 == 0:
+        return bet_amount * 1  # 1:1 payout
+    if bet_type == "high" and 19 <= winning_number <= 36:
+        return bet_amount * 1  # 1:1 payout
+    if bet_type == "low" and 1 <= winning_number <= 18:
+        return bet_amount * 1  # 1:1 payout
+    if bet_type == "1st12" and 1 <= winning_number <= 12:
+        return bet_amount * 2  # 2:1 payout
+    if bet_type == "2nd12" and 13 <= winning_number <= 24:
+        return bet_amount * 2  # 2:1 payout
+    if bet_type == "3rd12" and 25 <= winning_number <= 36:
+        return bet_amount * 2  # 2:1 payout
+    if bet_type == "col1" and winning_number != 0 and winning_number % 3 == 1:
+        return bet_amount * 2  # 2:1 payout
+    if bet_type == "col2" and winning_number != 0 and winning_number % 3 == 2:
+        return bet_amount * 2  # 2:1 payout
+    if bet_type == "col3" and winning_number != 0 and winning_number % 3 == 0:
+        return bet_amount * 2  # 2:1 payout
+
+    # If none of the above winning conditions were met, the player loses.
+    return -bet_amount
 
 # Add more helper functions related to roulette here, e.g.:
 def is_red(number):
