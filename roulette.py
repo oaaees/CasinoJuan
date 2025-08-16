@@ -51,12 +51,3 @@ def determine_outcome(winning_number: int, bet_amount: int, bet_type: str) -> in
 
     # If none of the above winning conditions were met, the player loses.
     return -bet_amount
-
-# Add more helper functions related to roulette here, e.g.:
-def is_red(number):
-    return ROULETTE_NUMBERS.get(number) == "red"
-
-def is_black(number):
-    return ROULETTE_NUMBERS.get(number) == "black"
-
-# etc.
